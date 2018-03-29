@@ -1,0 +1,12 @@
+.card-container{
+  padding:40px;
+}
+
+.refresh-container{
+  position:absolute;
+}
+
+.warn{
+  color:red;
+  padding:10px 0;
+}

@@ -2,11 +2,93 @@
   padding:40px;
 }
 
+.app-container{
+  height:100%;
+  background-color: #e4daac;
+  font-family:KaiTi;
+}
+
+.background-container{
+  display:flex;
+  display:-webkit-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('../src/public/images/test.png') no-repeat;
+  background-size:cover;
+  height:100%;
+}
+
+.background-title{
+  font-size:40px;
+}
+
+@media only screen and (max-width:768px){
+  .background-title{
+    font-size:20px;
+  }
+}
+
+/*#zhichiBtnBox{
+  bottom:30% !important;
+  right:30% !important;
+}*/
+
+.card-container{
+  position:relative;
+}
+
+.img{
+  position:absolute;
+  top: 66%;
+  left: -4%;
+  height: 257px;
+}
+
+.enter-button{
+  margin-top:4%;
+}
+
+.question-container{
+  margin:0 auto;
+  max-width:500px;
+}
+
+.question-list{
+  padding:20px;
+}
+
+.nav-button{
+  display:flex;
+  display:-webkit-flex;
+  justify-content: flex-end;
+}
+
 .refresh-container{
   position:absolute;
+}
+
+.card-title{
+  font-size:22px;
+  font-family:KaiTi
 }
 
 .warn{
   color:red;
   padding:10px 0;
+}
+
+.result-title{
+  text-align:center;
+}
+
+.result-content{
+  margin:20px 0;
+  border: 2px solid #e4daac;
+  border-radius: 10px;
+  padding:20px;
+}
+
+.result-info{
+  font-size:12px
 }

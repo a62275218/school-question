@@ -6,20 +6,28 @@ import QuestionCard from './QuestionList/QuestionCard'
 import QuestionStepper from './Stepper/Stepper'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import axios from 'axios';
+
+const theme = getMuiTheme({
+    fontFamily:'Roboto, serif ,sans-serif ,monospace,Microsoft YaHei',
+});
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             stepIndex: 0,
+            start: true,
             finish: false,
             questions: [
                 {
-                    title: '区域',
+                    title: '区域调查',
                     index: 0,
                     selected: false,
                     first: true,
+                    imgUrl: './../../src/public/images/piccut-01.png',
                     options: [
                         {value: 'VIC', label: '维多利亚'},
                         {value: 'TAS', label: '塔斯马尼亚'},
@@ -61,10 +69,10 @@ class App extends Component {
                     ]
                 },
                 {
-                    title: '个人性格',
+                    title: '个人性格窥探',
                     index: 2,
                     selected: false,
-                    loading:false,
+                    loading: false,
                     last: true,
                     warn: false,
                     options: [
@@ -77,40 +85,62 @@ class App extends Component {
         }
     }
 
+    componentDidMount() {
+    }
+
     render() {
         const actions = [
             <FlatButton label="再做一遍" primary={true} onClick={this.handleRefresh}/>
         ];
         return (
-            <MuiThemeProvider>
-                <div>
-                    <QuestionStepper {...this.state}/>
-                    <div className={'card-container'}>
-                        <Card>
-                            <CardText>
-                                <QuestionCard
-                                    questions={this.state.questions[this.state.stepIndex]}
-                                    handleButtonClick={this.handleButtonClick}
-                                    handleOptionChange={this.handleOptionChange}
-                                    handleSubmit={this.handleSubmit}
-                                />
-                            </CardText>
-                        </Card>
-                    </div>
-                    <Dialog open={this.state.finish} actions={actions}>
-                        <div>您的结果是</div>
-                        <div>
-                            {
-                                this.state.schools?(
-                                    this.state.schools.map((item,i)=>{
-                                        return(
-                                            <div key={i}>{item}</div>
-                                        )
-                                    })
-                                ):('')
-                            }
-                        </div>
-                    </Dialog>
+            <MuiThemeProvider muiTheme={theme}>
+                <div className={'app-container'}>
+                    {
+                        this.state.start ? (
+                            <div className={'background-container'}>
+                                <div className={'background-title'}>澳洲这么多学校会不会挑花眼了？<br/>
+                                    不如测一下与你有缘的学校
+                                </div>
+                                <RaisedButton label={'开始测试'} primary={true} className={'enter-button'}
+                                              onClick={this.handleEnter}/>
+                            </div>
+                        ) : (
+                            <div className={'question-container'}>
+                                <QuestionStepper {...this.state}/>
+                                <div className={'card-container'}>
+                                    <Card>
+                                        <CardText>
+                                            <QuestionCard
+                                                questions={this.state.questions[this.state.stepIndex]}
+                                                handleButtonClick={this.handleButtonClick}
+                                                handleOptionChange={this.handleOptionChange}
+                                                handleSubmit={this.handleSubmit}
+                                            />
+                                        </CardText>
+                                    </Card>
+                                </div>
+                                <Dialog open={this.state.finish} actions={actions}>
+                                    <div className={'result-wrapper'}>
+                                        <div className={'result-title'}>您的择校结果是</div>
+                                        <div className={'result-content'}>
+                                            {
+                                                this.state.schools ? (
+                                                    this.state.schools.map((item, i) => {
+                                                        return (
+                                                            <div key={i}>{item}</div>
+                                                        )
+                                                    })
+                                                ) : ('')
+                                            }
+                                        </div>
+                                        <div className={'result-info'}>
+                                            本测试纯属娱乐，预知详细择校信息，请点击页面右下方客服按钮
+                                        </div>
+                                    </div>
+                                </Dialog>
+                            </div>
+                        )
+                    }
                 </div>
             </MuiThemeProvider>
         );
@@ -124,6 +154,11 @@ class App extends Component {
             (questions[2].warn = false);
         this.setState({
             questions: questions
+        })
+    };
+    handleEnter = () => {
+        this.setState({
+            start: false
         })
     };
 
@@ -161,10 +196,10 @@ class App extends Component {
                 })
                 .catch(err => {
                     let schools = this.state.schools;
-                    schools=["无法找到推荐学校"];
+                    schools = ["无法找到推荐学校"];
                     this.setState({
                         finish: true,
-                        schools:schools
+                        schools: schools
                     })
                 }).finally(() => {
                 questions[2].loading = false;
@@ -178,7 +213,7 @@ class App extends Component {
         let questions = this.state.questions;
         for (let item of questions) {
             item.selected = false;
-            item.loading =false
+            item.loading = false
         }
         this.setState({
             stepIndex: 0,

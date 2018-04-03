@@ -13,7 +13,7 @@ class QuestionStepper extends React.Component {
 
     render() {
         return (
-            <Stepper activeStep={this.props.stepIndex}>
+            <Stepper activeStep={this.props.stepIndex} alternativeLabel>
                 {
                     this.props.questions.map((item, i) => {
                         return (
